@@ -5,11 +5,13 @@ using ObjectDetection.ViewModel.Command;
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace ObjectDetection.ViewModel
 {
     class TrainImageTabViewModel : NotificationObject
     {
+        private WriteableBitmap _writeableBitmap;
         private string[] _imagePaths;
         private int _currentIndex;
         private bool _isPositive;
@@ -22,6 +24,19 @@ namespace ObjectDetection.ViewModel
         public RelayCommand NextCommand { get; }
 
         public RelayCommand SaveCommand { get; }
+
+        public WriteableBitmap ImageSource 
+        {
+            get => _writeableBitmap;
+            set
+            {
+                if (_writeableBitmap != value)
+                {
+                    _writeableBitmap = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public int CurrentIndex {
             get => _currentIndex;

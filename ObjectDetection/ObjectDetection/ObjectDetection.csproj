@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extention\MatExtention.cs" />
     <Compile Include="Interface\IDialog.cs" />
     <Compile Include="Interface\IElement.cs" />
     <Compile Include="MachineLearning\HogBase.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="MachineLearning\SvmReader.cs" />
     <Compile Include="MachineLearning\SVMTrain.cs" />
     <Compile Include="Utility\ElementContainer.cs" />
+    <Compile Include="Utility\NativeCaller.cs" />
     <Compile Include="ViewModel\Command\RelayCommand.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NotificationObject.cs" />
