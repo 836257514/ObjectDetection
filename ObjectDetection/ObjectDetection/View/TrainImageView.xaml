@@ -1,0 +1,40 @@
+﻿<TabItem x:Class="ObjectDetection.View.TrainImageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ObjectDetection.View.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Header="Train image">
+    <TabItem.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Content" Value="{Binding Name}"/>
+            <Setter Property="Command" Value="{Binding}"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="80"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <converter:InverseBoolConverter x:Key="InverseBool"/>
+    </TabItem.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="AliceBlue" BorderThickness="3" Grid.Column="0"/>
+        <Image Grid.Column="0"/>
+        <StackPanel Orientation="Vertical"  Grid.Column="1" VerticalAlignment="Center">
+            <Button DataContext="{Binding SelectFolderCommand}"/>
+            <Button DataContext="{Binding PreviousCommand}"/>
+            <Button DataContext="{Binding NextCommand}"/>
+            <Button DataContext="{Binding SaveCommand}"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Positive" IsChecked="{Binding IsPositive}"/>
+                <RadioButton Content="Negtive" IsChecked="{Binding IsPositive, Converter={StaticResource InverseBool}}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</TabItem>

@@ -57,6 +57,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,10 +76,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interface\IDialog.cs" />
+    <Compile Include="Interface\IElement.cs" />
     <Compile Include="MachineLearning\HogBase.cs" />
     <Compile Include="MachineLearning\SVMPredict.cs" />
     <Compile Include="MachineLearning\SvmReader.cs" />
     <Compile Include="MachineLearning\SVMTrain.cs" />
+    <Compile Include="Utility\ElementContainer.cs" />
+    <Compile Include="ViewModel\Command\RelayCommand.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NotificationObject.cs" />
+    <Compile Include="ViewModel\TrainImageTabViewModel.cs" />
+    <Compile Include="View\Converter\InverseBoolConverter.cs" />
+    <Compile Include="View\Dialog.cs" />
+    <Compile Include="View\TrainImageView.xaml.cs">
+      <DependentUpon>TrainImageView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,6 +104,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\TrainImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -120,4 +137,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(TargetDir)x86" mkdir "$(TargetDir)x86"
+if not exist "$(TargetDir)x64" mkdir "$(TargetDir)x64"
+XCopy "$(SolutionDir)packages\OpencvNative\x86\*.*" "$(TargetDir)x86\*.*" /E /Y
+XCopy "$(SolutionDir)packages\OpencvNative\x64\*.*" "$(TargetDir)x64\*.*" /E /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

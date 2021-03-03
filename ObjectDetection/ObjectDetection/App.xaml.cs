@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ObjectDetection.Interface;
+using ObjectDetection.Utility;
+using ObjectDetection.View;
 using System.Windows;
 
 namespace ObjectDetection
@@ -13,5 +10,10 @@ namespace ObjectDetection
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            ElementContainer.Instance.RegistElement<IDialog>(new Dialog());
+        }
     }
 }
