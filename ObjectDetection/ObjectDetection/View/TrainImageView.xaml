@@ -25,10 +25,16 @@
             <ColumnDefinition Width="0.2*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="AliceBlue" BorderThickness="3" Grid.Column="0"/>
-        <Image  Grid.Column="0" Source="{Binding ImageSource}"/>
+        <Image x:Name="img" Grid.Column="0" Source="{Binding ImageSource}" MouseDown="OnImageMouseDown" MouseMove="OnImageMouseMove"/>
         <StackPanel Orientation="Vertical"  Grid.Column="1" VerticalAlignment="Center">
-            <Button DataContext="{Binding SelectImageCommand}"/>
-            <Button DataContext="{Binding TrainSvmCommand}"/>
+            <Button DataContext="{Binding SelectFolderCommand}"/>
+            <Button DataContext="{Binding PreviousCommand}"/>
+            <Button DataContext="{Binding NextCommand}"/>
+            <Button DataContext="{Binding SaveCommand}"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Positive" IsChecked="{Binding IsPositive}"/>
+                <RadioButton Content="Negtive" IsChecked="{Binding IsPositive, Converter={StaticResource InverseBool}}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </TabItem>
