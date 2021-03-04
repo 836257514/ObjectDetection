@@ -24,11 +24,7 @@ namespace ObjectDetection.View
 
         private void OnImageMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (_vm.ImageInfo.ImageWidth == 0 || (int)img.Source.Width != _vm.ImageInfo.ImageWidth)
-            {
-                _vm.ImageInfo.Initialize(img.ActualWidth, img.ActualHeight, (int)img.Source.Width, (int)img.Source.Height);
-            }
-
+            _vm.ImageInfo.Initialize(img.ActualWidth, img.ActualHeight, (int)img.Source.Width, (int)img.Source.Height);
             SetPosition(sender, e);
         }
 

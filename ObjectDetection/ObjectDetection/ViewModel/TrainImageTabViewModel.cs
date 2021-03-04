@@ -8,13 +8,13 @@ using ObjectDetection.ViewModel.Command;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ObjectDetection.ViewModel
 {
     class TrainImageTabViewModel : NotificationObject
     {
+        private const int DesiredWidth = 600;
         private MCvScalar _mCvScalar = new MCvScalar(0, 255, 0);
         private WriteableBitmap _writeableBitmap;
         private Mat _srcMat;
@@ -157,6 +157,13 @@ namespace ObjectDetection.ViewModel
         private void LoadImage()
         {
             _srcMat = CvInvoke.Imread(_imagePaths[CurrentIndex]);
+            if (_srcMat.Width > DesiredWidth)
+            {
+                float ratio = (float)DesiredWidth / _srcMat.Width;
+                var desiredHeight = (int)(ratio * _srcMat.Height);
+                CvInvoke.Resize(_srcMat, _srcMat, new System.Drawing.Size(DesiredWidth, desiredHeight));
+            }
+          
             ImageSource = _srcMat.ConvertToWriteableBitmap();
             _srcMat.CopyToWriteableBitmap(ImageSource);
         }

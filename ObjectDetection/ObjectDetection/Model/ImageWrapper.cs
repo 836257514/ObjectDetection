@@ -22,8 +22,8 @@ namespace ObjectDetection.Model
         public void Initialize(double controlW, double controlH, int imageW, int imageH)
         {
             ImageWidth = imageW;
-            _imageRightEdge = imageW - HogConstant.HogWindowSize;
-            _imageBottomEdge = imageH - HogConstant.HogWindowSize;
+            _imageRightEdge = imageW - HogConstant.HogWindowSize - RectThinkness;
+            _imageBottomEdge = imageH - HogConstant.HogWindowSize - RectThinkness;
             XRatio = controlW / imageW;
             YRatio = controlH / imageH;
         }
@@ -34,8 +34,8 @@ namespace ObjectDetection.Model
         /// <returns>roi</returns>
         public Rectangle GetRoi()
         {
-            _rect.X = (int)(ClickX * XRatio) - HogConstant.HogWindowSize / 2;
-            _rect.Y = (int)(ClickY * YRatio) - HogConstant.HogWindowSize / 2;
+            _rect.X = (int)(ClickX / XRatio) - HogConstant.HogWindowSize / 2;
+            _rect.Y = (int)(ClickY / YRatio) - HogConstant.HogWindowSize / 2;
 
             if (_rect.X < 0)
             {

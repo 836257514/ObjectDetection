@@ -43,9 +43,9 @@ namespace ObjectDetection.MachineLearning
             var labels = new Matrix<int>(files.Length, 1);
             for(int i = 0; i < files.Length; ++i)
             {
-                using (var image = new Image<Gray, byte>(files[i]))
+                using (var mat = CvInvoke.Imread(files[i]))
                 {
-                    var feature = _hogDescriptor.Compute(image);
+                    var feature = _hogDescriptor.Compute(mat);
                     for (var j = 0; j < _hogDescriptor.DescriptorSize; ++j)
                     {
                         features[i, j] = feature[j];
@@ -62,8 +62,8 @@ namespace ObjectDetection.MachineLearning
         {
             var svm = new SVM() { Type = SVM.SvmType.CSvc };
             svm.SetKernel(SVM.SvmKernelType.Linear);
-            svm.C = 1;
-            svm.TermCriteria = new MCvTermCriteria(10000, 0.0001);
+            //svm.C = 1;
+            svm.TermCriteria = new MCvTermCriteria(10000, float.Epsilon);
             svm.Train(featureData, DataLayoutType.RowSample, labels);
             svm.Save(xmlPath);
         }

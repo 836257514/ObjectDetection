@@ -15,7 +15,6 @@ namespace ObjectDetection.ViewModel
     class PredictImageTabViewModel : NotificationObject
     {
         private MCvScalar _mCvScalar = new MCvScalar(0, 255, 0);
-        private bool _isTrained;
         private IDialog _dialog;
         private SVMPredict _svmPredict;
         private WriteableBitmap _writeableBitmap;
@@ -88,8 +87,6 @@ namespace ObjectDetection.ViewModel
             {
                 _dialog.ShowErrorMessage(ex.StackTrace.ToString());
             }
-            
-            _isTrained = true;
         }
     }
 }
