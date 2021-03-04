@@ -1,21 +1,31 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using ObjectDetection.Extention;
 using ObjectDetection.Interface;
+using ObjectDetection.Model;
 using ObjectDetection.Utility;
 using ObjectDetection.ViewModel.Command;
 using System;
+
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ObjectDetection.ViewModel
 {
     class TrainImageTabViewModel : NotificationObject
     {
+        private const string PositiveFolderName = "Positive";
+        private const string NegtiveFolderName = "Negtive";
+        private MCvScalar _mCvScalar = new MCvScalar(0, 255, 0);
         private WriteableBitmap _writeableBitmap;
+        private Mat _srcMat;
         private string[] _imagePaths;
         private int _currentIndex;
         private bool _isPositive;
-        public event EventHandler<Mat> ImageLoaded;
+
+        public IImageWrapper ImageInfo { get; }
 
         public RelayCommand SelectFolderCommand { get; }
 
@@ -64,14 +74,53 @@ namespace ObjectDetection.ViewModel
 
         public TrainImageTabViewModel()
         {
+            ImageInfo = new ImageWrapper();
             PreviousCommand = new RelayCommand(OnPreviousExecute, "Previous");
             NextCommand = new RelayCommand(OnNextExecute, "Next");
             SelectFolderCommand = new RelayCommand(OnSelectFolderExecute, "Folder");
             SaveCommand = new RelayCommand(OnSaveExecute, "Save");
         }
 
+        /// <summary>
+        /// Refresh image.
+        /// </summary>
+        /// <param name="imageWrapper">image wrapper</param>
+        public void RefreshImage()
+        {
+            using (var mat = new Mat(_srcMat.Size, _srcMat.Depth, _srcMat.NumberOfChannels))
+            {
+                _srcMat.CopyTo(mat);
+                CvInvoke.Rectangle(mat, ImageInfo.GetRoi(), _mCvScalar, ImageWrapper.RectThinkness);
+                mat.CopyToWriteableBitmap(ImageSource);
+            }
+        }
+
         private void OnSaveExecute(object obj)
         {
+            using (var mat = new Mat(_srcMat, ImageInfo.GetRoi()))
+            {
+                var jpegName = $"{DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss")}.jpg";
+                if (IsPositive)
+                {
+                    if (!Directory.Exists(PositiveFolderName))
+                    {
+                        Directory.CreateDirectory(PositiveFolderName);
+                    }
+
+                    var path = Path.Combine(PositiveFolderName, jpegName);
+                    mat.Save(path);
+                }
+                else
+                {
+                    if (!Directory.Exists(NegtiveFolderName))
+                    {
+                        Directory.CreateDirectory(NegtiveFolderName);
+                    }
+
+                    var path = Path.Combine(NegtiveFolderName, jpegName);
+                    mat.Save(path);
+                }
+            }
         }
 
         private void OnSelectFolderExecute(object obj)
@@ -109,8 +158,18 @@ namespace ObjectDetection.ViewModel
 
         private void LoadImage()
         {
-            var mat = CvInvoke.Imread(_imagePaths[CurrentIndex]);
-            ImageLoaded?.Invoke(this, mat);
+            _srcMat = CvInvoke.Imread(_imagePaths[CurrentIndex]);
+            var format = PixelFormats.Bgr24;
+            if (_srcMat.NumberOfChannels == 4)
+            {
+                format = PixelFormats.Bgra32;
+            }
+            if (_srcMat.NumberOfChannels == 1)
+            {
+                format = PixelFormats.Gray8;
+            }
+            ImageSource = new WriteableBitmap(_srcMat.Width, _srcMat.Height, 96, 96, format, null);
+            _srcMat.CopyToWriteableBitmap(ImageSource);
         }
     }
 }

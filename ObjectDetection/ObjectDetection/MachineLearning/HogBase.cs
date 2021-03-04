@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using ObjectDetection.Interface;
 using System.Drawing;
 
 namespace ObjectDetection.MachineLearning
@@ -10,7 +11,7 @@ namespace ObjectDetection.MachineLearning
         protected HogBase()
         {
             //窗口大小，样本大小
-            var winSize = new Size(128, 128);
+            var winSize = new Size(HogConstant.HogWindowSize, HogConstant.HogWindowSize);
             //blockSize,块大小
             var blockSize = new Size(16, 16);
             //滑块大小，每次滑动的尺寸

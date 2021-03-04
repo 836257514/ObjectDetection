@@ -77,8 +77,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extention\MatExtention.cs" />
+    <Compile Include="Model\ImageWrapper.cs" />
+    <Compile Include="Interface\HogConstant.cs" />
     <Compile Include="Interface\IDialog.cs" />
     <Compile Include="Interface\IElement.cs" />
+    <Compile Include="Interface\IImageWrapper.cs" />
     <Compile Include="MachineLearning\HogBase.cs" />
     <Compile Include="MachineLearning\SVMPredict.cs" />
     <Compile Include="MachineLearning\SvmReader.cs" />

@@ -1,15 +1,11 @@
-﻿using Emgu.CV;
-using ObjectDetection.ViewModel;
+﻿using ObjectDetection.ViewModel;
 using System.Windows;
 
 namespace ObjectDetection.View
 {
-    /// <summary>
-    /// Interaction logic for TrainImageView.xaml
-    /// </summary>
     public partial class TrainImageView
     {
-        private TrainImageTabViewModel _viewModel;
+        private TrainImageTabViewModel _vm;
 
         public TrainImageView()
         {
@@ -19,16 +15,36 @@ namespace ObjectDetection.View
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is TrainImageTabViewModel viewModel)
+            if (e.NewValue is TrainImageTabViewModel vm)
             {
-                _viewModel = viewModel;
-                _viewModel.ImageLoaded += OnImageLoaded;
+                _vm = vm;
             }
         }
 
-        private void OnImageLoaded(object sender, Mat e)
+        private void OnImageMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
+            if (_vm.ImageInfo.ImageWidth == 0 || (int)img.Source.Width != _vm.ImageInfo.ImageWidth)
+            {
+                _vm.ImageInfo.Initialize(img.ActualWidth, img.ActualHeight, (int)img.Source.Width, (int)img.Source.Height);
+            }
+
+            SetPosition(sender, e);
+        }
+
+        private void OnImageMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                SetPosition(sender, e);
+            }
+        }
+
+        private void SetPosition(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var point = e.GetPosition(sender as IInputElement);
+            _vm.ImageInfo.ClickX = (int)point.X;
+            _vm.ImageInfo.ClickY = (int)point.Y;
+            _vm.RefreshImage();
         }
     }
 }
