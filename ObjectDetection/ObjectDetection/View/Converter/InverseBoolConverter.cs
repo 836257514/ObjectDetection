@@ -13,12 +13,17 @@ namespace ObjectDetection.View.Converter
                 return !boolValue;
             }
 
-            return value;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            if (value is bool boolValue)
+            {
+                return !boolValue;
+            }
+
+            return null;
         }
     }
 }

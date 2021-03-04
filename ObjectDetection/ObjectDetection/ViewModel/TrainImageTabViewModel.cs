@@ -71,6 +71,7 @@ namespace ObjectDetection.ViewModel
 
         public TrainImageTabViewModel()
         {
+            IsPositive = true;
             ImageInfo = new ImageWrapper();
             PreviousCommand = new RelayCommand(OnPreviousExecute, "Previous");
             NextCommand = new RelayCommand(OnNextExecute, "Next");
@@ -156,16 +157,7 @@ namespace ObjectDetection.ViewModel
         private void LoadImage()
         {
             _srcMat = CvInvoke.Imread(_imagePaths[CurrentIndex]);
-            var format = PixelFormats.Bgr24;
-            if (_srcMat.NumberOfChannels == 4)
-            {
-                format = PixelFormats.Bgra32;
-            }
-            if (_srcMat.NumberOfChannels == 1)
-            {
-                format = PixelFormats.Gray8;
-            }
-            ImageSource = new WriteableBitmap(_srcMat.Width, _srcMat.Height, 96, 96, format, null);
+            ImageSource = _srcMat.ConvertToWriteableBitmap();
             _srcMat.CopyToWriteableBitmap(ImageSource);
         }
     }

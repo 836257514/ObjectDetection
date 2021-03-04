@@ -1,5 +1,6 @@
 ﻿using Emgu.CV;
 using ObjectDetection.Utility;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ObjectDetection.Extention
@@ -35,6 +36,20 @@ namespace ObjectDetection.Extention
             {
                 bitmap.Unlock();
             }
+        }
+
+        public static WriteableBitmap ConvertToWriteableBitmap(this Mat mat)
+        {
+            var format = PixelFormats.Bgr24;
+            if (mat.NumberOfChannels == 4)
+            {
+                format = PixelFormats.Bgra32;
+            }
+            if (mat.NumberOfChannels == 1)
+            {
+                format = PixelFormats.Gray8;
+            }
+            return new WriteableBitmap(mat.Width, mat.Height, 96, 96, format, null);
         }
     }
 

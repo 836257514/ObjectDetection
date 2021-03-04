@@ -23,10 +23,10 @@ namespace ObjectDetection.MachineLearning
         public float[] GetSvmDescriptor()
         {
             var svMatrix = new Matrix<float>(SupportVector.Rows, SupportVector.Cols, SupportVector.DataPointer);
-            Matrix<float> tempMatrix = -1 * svMatrix * Alpha;
+            Matrix<float> tempMatrix = -1 * Alpha * svMatrix;
             var descriptorLength = SupportVector.Cols + 1;
             var descriptor = new float[descriptorLength];
-            for (var i = 0; i < descriptorLength; ++i)
+            for (var i = 0; i < SupportVector.Cols; ++i)
             {
                 descriptor[i] = tempMatrix[0, i];
             }

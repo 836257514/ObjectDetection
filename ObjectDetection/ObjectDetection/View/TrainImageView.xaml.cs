@@ -1,6 +1,7 @@
 ﻿using ObjectDetection.ViewModel;
 using System.Windows;
 
+
 namespace ObjectDetection.View
 {
     public partial class TrainImageView
@@ -45,6 +46,28 @@ namespace ObjectDetection.View
             _vm.ImageInfo.ClickX = (int)point.X;
             _vm.ImageInfo.ClickY = (int)point.Y;
             _vm.RefreshImage();
+        }
+
+        private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case System.Windows.Input.Key.S:
+                    {
+                        _vm.SaveCommand.Execute(null);
+                        break;
+                    }
+                case System.Windows.Input.Key.A:
+                    {
+                        _vm.PreviousCommand.Execute(null);
+                        break;
+                    }
+                case System.Windows.Input.Key.D:
+                    {
+                        _vm.NextCommand.Execute(null);
+                        break;
+                    }
+            }
         }
     }
 }

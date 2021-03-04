@@ -7,6 +7,7 @@ using ObjectDetection.Model;
 using ObjectDetection.Utility;
 using ObjectDetection.ViewModel.Command;
 using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace ObjectDetection.ViewModel
@@ -44,7 +45,7 @@ namespace ObjectDetection.ViewModel
 
         private void OnSelectImageExecute(object obj)
         {
-            if (!_isTrained)
+            if (!File.Exists(HogConstant.SavePath))
             {
                 return;
             }
@@ -59,6 +60,7 @@ namespace ObjectDetection.ViewModel
             {
                 using (var mat = CvInvoke.Imread(imagePath))
                 {
+                    ImageSource = mat.ConvertToWriteableBitmap();
                     var result = _svmPredict.Predict(mat);
                     if (result.IsSuccess)
                     {

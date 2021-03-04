@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:ObjectDetection.View.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Header="Predict image">
+             d:DesignHeight="450" d:DesignWidth="800" Header="Train image" KeyDown="OnKeyDown">
     <TabItem.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
@@ -32,7 +32,7 @@
             <Button DataContext="{Binding NextCommand}"/>
             <Button DataContext="{Binding SaveCommand}"/>
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Positive" IsChecked="{Binding IsPositive}"/>
+                <RadioButton Content="Positive" IsChecked="{Binding IsPositive}" x:Name="positiveRadioBtn"/>
                 <RadioButton Content="Negtive" IsChecked="{Binding IsPositive, Converter={StaticResource InverseBool}}"/>
             </StackPanel>
         </StackPanel>
