@@ -19,18 +19,24 @@ namespace ObjectDetection.MachineLearning
 
     class SVMPredict : HogBase
     {
+        public bool IsInitialized;
+
         /// <summary>
         /// Initialize svm by xml.
         /// </summary>
         /// <param name="xmlPath">xml path</param>
         public void Initialize(string xmlPath)
         {
-            var svm = new SVM();
-            svm.Load(xmlPath);
-            var supportVectors = svm.GetSupportVectors();
-            var reader = new SvmReader();
-            var context = reader.Read(supportVectors, xmlPath);
-            _hogDescriptor.SetSVMDetector(context.GetSvmDescriptor());
+            if (!IsInitialized)
+            {
+                var svm = new SVM();
+                svm.Load(xmlPath);
+                var supportVectors = svm.GetSupportVectors();
+                var reader = new SvmReader();
+                var context = reader.Read(supportVectors, xmlPath);
+                _hogDescriptor.SetSVMDetector(context.GetSvmDescriptor());
+                IsInitialized = true;
+            }
         }
 
         /// <summary>

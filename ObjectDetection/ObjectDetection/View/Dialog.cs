@@ -1,5 +1,5 @@
 ﻿using ObjectDetection.Interface;
-using System;
+using System.Windows;
 
 namespace ObjectDetection.View
 {
@@ -7,7 +7,7 @@ namespace ObjectDetection.View
     {
         public void ShowErrorMessage(string msg)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public string ShowFolderBrowser()
@@ -23,7 +23,7 @@ namespace ObjectDetection.View
 
         public void ShowMessage(string msg)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(msg);
         }
 
         public string ShowOpenFileDialog()

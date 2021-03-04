@@ -8,5 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
         <view:TrainImageView DataContext="{Binding TrainImageTabViewModel}"/>
+        <view:PredictImageView DataContext="{Binding PredictImageTabViewModel}"/>
     </TabControl>
 </Window>

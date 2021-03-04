@@ -6,7 +6,6 @@ using ObjectDetection.Model;
 using ObjectDetection.Utility;
 using ObjectDetection.ViewModel.Command;
 using System;
-
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
@@ -16,8 +15,6 @@ namespace ObjectDetection.ViewModel
 {
     class TrainImageTabViewModel : NotificationObject
     {
-        private const string PositiveFolderName = "Positive";
-        private const string NegtiveFolderName = "Negtive";
         private MCvScalar _mCvScalar = new MCvScalar(0, 255, 0);
         private WriteableBitmap _writeableBitmap;
         private Mat _srcMat;
@@ -102,22 +99,22 @@ namespace ObjectDetection.ViewModel
                 var jpegName = $"{DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss")}.jpg";
                 if (IsPositive)
                 {
-                    if (!Directory.Exists(PositiveFolderName))
+                    if (!Directory.Exists(HogConstant.PositiveFolderName))
                     {
-                        Directory.CreateDirectory(PositiveFolderName);
+                        Directory.CreateDirectory(HogConstant.PositiveFolderName);
                     }
 
-                    var path = Path.Combine(PositiveFolderName, jpegName);
+                    var path = Path.Combine(HogConstant.PositiveFolderName, jpegName);
                     mat.Save(path);
                 }
                 else
                 {
-                    if (!Directory.Exists(NegtiveFolderName))
+                    if (!Directory.Exists(HogConstant.NegtiveFolderName))
                     {
-                        Directory.CreateDirectory(NegtiveFolderName);
+                        Directory.CreateDirectory(HogConstant.NegtiveFolderName);
                     }
 
-                    var path = Path.Combine(NegtiveFolderName, jpegName);
+                    var path = Path.Combine(HogConstant.NegtiveFolderName, jpegName);
                     mat.Save(path);
                 }
             }
